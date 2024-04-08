@@ -1,0 +1,16 @@
+# docker-compose.yml
+version: "3"
+
+services:
+  app:
+    container_name: api_app_nectec
+    build: .
+    ports:
+      - "8000:80"
+    depends_on:
+      - mongo
+  mongo:
+    container_name: mongo_nectec_db
+    image: mongo
+    ports:
+      - "27017:27017"

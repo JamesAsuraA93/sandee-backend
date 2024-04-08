@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  seasand-nectec-backend:
+    build: ./seasand-nectec-backend
+    ports:
+      - "8000:8000"
+
+  point-cloud-project:
+    build: ./seasand-nectec-backend/point_cloud_project
+
+  test-project:
+    build: ./seasand-nectec-backend/test_project
+
+  backend-api-project:
+    build: ./seasand-nectec-backend/backend_api_project
+    ports:
+      - "8000:8000"
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
