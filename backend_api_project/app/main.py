@@ -4,7 +4,7 @@ from motor.motor_asyncio import AsyncIOMotorClient
 # from app.auth import login, register, forget_password, reset_password
 # from app.files import upload
 
-from auth import login, register, forget_password, reset_password
+from auth import login, register, forget_password, reset_password , get_users
 from files import upload
 
 
@@ -29,6 +29,10 @@ app.include_router(register.router)
 app.include_router(forget_password.router)
 app.include_router(reset_password.router)
 
+# Include auth users route
+app.include_router(get_users.router)
+
+
 # Include file upload route
 app.include_router(upload.router)
 
@@ -40,11 +44,30 @@ async def read_root():
 
 @app.get("/users")
 async def read_users():
-    users_collection = db["users"]
-    users = []
-    async for user in users_collection.find():
-        users.append(user)
-    return users
+    mongo_client = AsyncIOMotorClient("mongodb://localhost:27017")
+    db = mongo_client["auth_db"]
+     
+    # mongo_client = AsyncIOMotorClient("mongodb://localhost:27017")
+    # db = mongo_client["auth_db"]
+    # users_collection = db["users"]
+    # print("Users")
+    # print(db)
+    # users_collection = db["users"]
+    # print(users_collection)
+    # users = []
+    # async for user in users_collection.find():
+    #     users.append(user)
+    # return users
+
+    try:
+        users_collection = db["users"]
+        users = []
+        async for user in users_collection.find():
+            users.append(user)
+        return users
+    except Exception as e:
+        return {"error": str(e)}
+    
 
 
 

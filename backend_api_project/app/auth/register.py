@@ -25,6 +25,7 @@ async def register(username: str, password: str, email: str):
     db = mongo_client["auth_db"]
     users_collection = db["users"]
     
+    
     # Check if username or email already exists
     existing_user = await users_collection.find_one({"$or": [{"username": username}, {"email": email}]})
     if existing_user:
@@ -57,4 +58,4 @@ async def register(username: str, password: str, email: str):
     
     
     # Return newly registered user data
-    return user_data
+    # return user_data
